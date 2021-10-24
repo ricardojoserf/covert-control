@@ -45,14 +45,20 @@ python3 generate_file.py -t video -c "whoami" -o video_encrypted.avi -e
 ### Common configuration values in config.py
 
 - **data_type** (Optional. Default: "text"):
-	- "text" - Generate text file (".txt") with the command in cleartext.
-	- "text_encrypted" - Generate text (".txt") file with the command encrypted with AES.
-	- "image" - Generate image file (".png") with the command in cleartext. The command is in the QR code of the image.
-	- "image_encrypted" - Generate image file (".png") with the command encrypted with AES. 
-	- "audio" - Generate audio file (".wav") with the command in cleartext. The command ascii values are translated to binary values which form the audio.
-	- "audio_encrypted" - Generate audio file (".wav") with the command encrypted with AES. 
-	- "video" - Generate video file (".avi") with the command in cleartext. The command is in the QR code of the frame of the video.
-	- "video_encrypted" - Generate video file (".avi") with the command encrypted with AES. 
+	- "text" - Use text files with the command in cleartext.
+	- "text_encrypted" - Use text files with the command encrypted with AES.
+	- "image" - Use images with the command in cleartext (the command is in the QR code of the image).
+	- "image_encrypted" - Use images with the command encrypted with AES. 
+	- "audio" - Use audio files with the command in cleartext (the command ascii values are translated to binary values which form the audio)
+	- "audio_encrypted" - Use audio files with the command encrypted with AES. 
+	- "video" - Use videos with the command in cleartext (the command is in the QR code of the frame of the video)
+	- "video_encrypted" - Use videos with the command encrypted with AES. 
+
+| data_type      | File type | Encrypted | Valid for              | Extension |
+|----------------|-----------|-----------|------------------------|-----------|
+| text           | Text file | No        | Google Drive, OneDrive | .txt      |
+| text_encrypted | Text file | Yes       | Google Drive, OneDrive | .txt      |
+| image          | Image     | No        | Google Drive, OneDrive | .png      |
 
 - **delay_seconds** (Optional. Default: 300): Seconds between checks of new files uploaded to the Google Drive or OneDrive folder or new videos in the Youtube channel.
 
@@ -84,7 +90,7 @@ After finding there is a new file uploaded to the folder, it is downloaded, proc
 
 ### Configuration in config.py
 
-- **googledrive_folder**: Url of public Google Drive folder.
+- **googledrive_folder**: Url of public Google Drive folder to monitor.
 
 
 
@@ -99,7 +105,7 @@ It allows to execute commands uploading text files, images, audio and videos, un
 python3 covert-onedrive.py
 ```
 
-The listener will check the OneDrive folder every 300 seconds by default (can be updated in *config.py*). In this case an audio, "audio_encrypted.wav", is uploaded with the command encrypted with AES.
+The listener will check the OneDrive folder every 300 seconds by default (this can be updated in *config.py*). In this case an audio, "audio_encrypted.wav", is uploaded with the command encrypted with AES.
 
 ![img3](https://raw.githubusercontent.com/ricardojoserf/ricardojoserf.github.io/master/images/covert-control/image3.png)
 
@@ -110,7 +116,7 @@ After finding there is a new file uploaded to the folder, it is downloaded, proc
 
 ### Configuration in config.py
 
-- **onedrive_folder**: Url of public OneDrive folder.
+- **onedrive_folder**: Url of public OneDrive folder to monitor.
 
 
 --------------------------------------------------------------------------------------
@@ -123,20 +129,20 @@ It allows to execute commands uploading videos, unencrypted or encrypted with AE
 python3 covert-youtube.py
 ```
 
-The listener will check the Youtube channel every 300 seconds by default (can be updated in *config.py*). First the video is uploaded:
+The listener will check the Youtube channel every 300 seconds by default (this can be updated in *config.py*). First the video is uploaded:
 
 ![img5](https://raw.githubusercontent.com/ricardojoserf/ricardojoserf.github.io/master/images/covert-control/image5.png)
 
-After finding there is [a new video in the channel](https://www.youtube.com/watch?v=ZPQ4drX35bU), it is downloaded, processed and the commands are executed:
+After finding there is [a new video in the channel](https://www.youtube.com/watch?v=4hk2g41HyWI), it is downloaded, processed and the commands are executed:
 
 ![img6](https://raw.githubusercontent.com/ricardojoserf/ricardojoserf.github.io/master/images/covert-control/image6.png)
 
 
 ### Configuration in config.py
 
-- **youtube_channel_id**: Get your Youtube channel ID from [here](https://www.youtube.com/account_advanced).
+- **youtube_channel_id**: Youtube channel ID of the channel to monitor. You can get it from [here](https://www.youtube.com/account_advanced).
 
-- **youtube_api_key**: Get the API key creating an application and generating the key from [here](https://console.cloud.google.com/apis/credentials).
+- **youtube_api_key**: Get an API key creating an application and generating the key in [here](https://console.cloud.google.com/apis/credentials).
 
 
 --------------------------------------------------------------------------------------
@@ -162,7 +168,7 @@ The listener will check the commands in the chat and show the output:
 ### Configuration in config.py
 
 
-- **telegram_token**: Bot token, create it using [BotFather](t.me/BotFather). Write "/newbot", then send a name for the bot (for example, "botname") and a username for the bot ending in -bot (for example, "somethingrandombot")
+- **telegram_token**: Bot token, create it using [BotFather](t.me/BotFather). Write "/newbot", then send a name for the bot (for example, "botname") and a username for the bot ending in "-bot" (for example, "somethingrandombot")
 
 
 --------------------------------------------------------------------------------------
