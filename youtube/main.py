@@ -80,7 +80,7 @@ def wait_for_upload(original_video_url, api_key, channel_id, delay_seconds, down
 
 def main():
 	delay_seconds = config.delay_seconds
-	downloaded_video_path = config.temp_folder + "/test.mp4"
+	downloaded_video_path = "./test.mp4"
 	channel_id = config.youtube_channel_id
 	api_key = config.youtube_api_key
 	original_video_url = get_first_video_in_channel(api_key, channel_id)

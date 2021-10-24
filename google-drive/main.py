@@ -22,6 +22,7 @@ def execute_commands(commands):
 
 def analyze(downloaded_file):
 	data_type = config.data_type
+	commands = []
 	if data_type == "text" or data_type == "text_encrypted":
 		if not downloaded_file.endswith(".txt"):
 			now = datetime.datetime.now()
@@ -54,7 +55,6 @@ def analyze(downloaded_file):
 			commands = read_file.read_audio(data_type, downloaded_file)
 	else:
 		if debug: print("[%02d:%02d:%02d] Unexpected data_type value: %s"%(now.hour,now.minute,now.second,data_type))
-		commands = []
 	return commands
 
 
@@ -94,10 +94,10 @@ def wait_for_upload(delay_seconds, download_dir, url):
 		if len(files_now) > len(files_initial):
 			new_files = [item for item in files_now if item not in files_initial]
 			for file in new_files:
-				downloaded_file = download_dir+str(file['name'])
+				downloaded_file = download_dir+"/"+str(file['name'])
 				download_file(str(file['url']), downloaded_file)
 				time.sleep(2)
-				commands = analyze(download_dir+str(file['name']))
+				commands = analyze(downloaded_file)
 				execute_commands(commands)
 				os.remove(downloaded_file)
 				files_initial = files_now
@@ -107,8 +107,8 @@ def wait_for_upload(delay_seconds, download_dir, url):
 		
 
 def main():
+	download_dir = "."
 	url = config.googledrive_folder
-	download_dir = config.temp_folder 
 	delay_seconds = config.delay_seconds
 	wait_for_upload(delay_seconds, download_dir, url)
 

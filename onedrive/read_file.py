@@ -2,6 +2,7 @@ from pyzbar.pyzbar import decode
 from Crypto.Cipher import AES
 from PIL import Image
 from glob import glob
+import datetime
 import base64
 import config
 import random
@@ -60,11 +61,16 @@ def read_video(image_type, video_path, imagesFolder):
 
 
 def decrypt_text(encrypted_text):
-	enc = base64.b64decode(encrypted_text)
-	cipher = AES.new(config.aes_key, AES.MODE_CBC, chr(0) * 16) # yes, IV is all zeros xD
-	dec = cipher.decrypt(enc)
-	unpad = lambda s: s[:-ord(s[len(s)-1:])]
-	return unpad(dec).decode('utf-8')
+	try:
+		enc = base64.b64decode(encrypted_text)
+		cipher = AES.new(config.aes_key, AES.MODE_CBC, chr(0) * 16) # yes, IV is all zeros xD
+		dec = cipher.decrypt(enc)
+		unpad = lambda s: s[:-ord(s[len(s)-1:])]
+		return unpad(dec).decode('utf-8')
+	except:
+		now = datetime.datetime.now()
+		if config.debug: print("[%02d:%02d:%02d] AES decryption was unsuccessful. Maybe you uploaded an unecrypted file?"%(now.hour,now.minute,now.second))
+		return ""
 
 
 def get_text(text_path):
@@ -125,8 +131,8 @@ def read_audio(audio_type, audio_path):
 def main():
 	print(read_text("text", "test1.txt"))
 	print(read_text("text_encrypted", "test2.txt"))
-	print(read_video("qr", "test3.avi", config.temp_folder))
-	print(read_video("qr_aes", "test4.avi", config.temp_folder))
+	print(read_video("qr", "test3.avi", "."))
+	print(read_video("qr_aes", "test4.avi", "."))
 	print(read_image("qr", "test5.png"))
 	print(read_image("qr_aes", "test6.png"))
 	print(read_audio("audio","test7.wav"))

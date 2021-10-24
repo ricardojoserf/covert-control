@@ -2,6 +2,7 @@ from pyzbar.pyzbar import decode
 from Crypto.Cipher import AES
 from PIL import Image
 from glob import glob
+import datetime
 import base64
 import config
 import random
@@ -130,8 +131,8 @@ def read_audio(audio_type, audio_path):
 def main():
 	print(read_text("text", "test1.txt"))
 	print(read_text("text_encrypted", "test2.txt"))
-	print(read_video("qr", "test3.avi", config.temp_folder))
-	print(read_video("qr_aes", "test4.avi", config.temp_folder))
+	print(read_video("qr", "test3.avi", "."))
+	print(read_video("qr_aes", "test4.avi", "."))
 	print(read_image("qr", "test5.png"))
 	print(read_image("qr_aes", "test6.png"))
 	print(read_audio("audio","test7.wav"))

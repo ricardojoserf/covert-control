@@ -12,6 +12,8 @@ import os
 import re
 
 
+temp_folder = "."
+
 def encrypt_text(message, aes_key):
 	message = message.encode()
 	BS = 16
@@ -29,13 +31,13 @@ def generate_frames(image_type, command):
 			cmd_ = input("Enter a command or 'exit' to generate video: ")
 			images_counter += 1
 			if cmd_ != "exit":
-				temp_image_path = config.temp_folder+"/image_"+str(images_counter)+".png"
+				temp_image_path = temp_folder+"/image_"+str(images_counter)+".png"
 				create_image(cmd_, image_type, temp_image_path)
 			else:
 				return images_counter
 				break
 	else:
-		temp_image_path = config.temp_folder+"/image_1.png"
+		temp_image_path = temp_folder+"/image_1.png"
 		create_image(command, image_type, temp_image_path)
 		return 1
 
@@ -43,7 +45,7 @@ def generate_frames(image_type, command):
 def create_video_file(video_file):
 	img_array = []
 	natsort = lambda s: [int(t) if t.isdigit() else t.lower() for t in re.split('(\d+)', s)]
-	for filename in sorted(glob(config.temp_folder+'/*.png'), key=natsort):
+	for filename in sorted(glob(temp_folder+'/*.png'), key=natsort):
 		img = cv2.imread(filename)
 		height, width, layers = img.shape
 		size = (width,height)
@@ -147,8 +149,8 @@ def generate_audio(file_type, outputfile, command):
 def test():
 	generate_textfile("text", "test1.txt", "whoami")
 	generate_textfile("text_encrypted", "test2.txt", "whoami")
-	generate_video("qr", "test3.avi", config.temp_folder, "whoami")
-	generate_video("qr_aes", "test4.avi", config.temp_folder, "whoami")
+	generate_video("qr", "test3.avi", temp_folder, "whoami")
+	generate_video("qr_aes", "test4.avi", temp_folder, "whoami")
 	generate_image("qr","test5.png", "whoami")
 	generate_image("qr_aes","test6.png", "whoami")
 	generate_audio("audio","test7.wav", "whoami")
@@ -195,13 +197,13 @@ def main():
 			outputfile = "test.avi"
 		if not outputfile.endswith(".avi"):
 			print("[-] Unexpected extension, it should be .avi")
-		generate_video("qr", outputfile, config.temp_folder, command)
+		generate_video("qr", outputfile, temp_folder, command)
 	elif file_type == "video_encrypted":
 		if outputfile is None:
 			outputfile = "test.avi"
 		if not outputfile.endswith(".avi"):
 			print("[-] Unexpected extension, it should be .avi")
-		generate_video("qr_aes", outputfile, config.temp_folder, command)
+		generate_video("qr_aes", outputfile, temp_folder, command)
 	elif file_type == "audio" or file_type == "audio_encrypted":
 		if outputfile is None:
 			outputfile = "test.wav"
