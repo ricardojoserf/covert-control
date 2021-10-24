@@ -21,7 +21,7 @@ python3 generate_file.py -t TYPE [-o OUTPUTFILE] [-c COMMAND] [-e]
 ```
 - -t (--type) [Required]: Types of file: "text", "image", "audio" or "video".
 
-- -o (--outputfile) [Optional]: Output file, with extension ".txt" for "text", ".png" for "image", ".wav" for "audio" and ".avi" for "video".
+- -o (--outputfile) [Optional]: Output file.
 
 - -c (--command) [Optional]: Command to execute.
 
@@ -31,8 +31,8 @@ python3 generate_file.py -t TYPE [-o OUTPUTFILE] [-c COMMAND] [-e]
 Examples:
 
 ```
-python3 generate_file.py -t text -c "whoami" -o text.txt
-python3 generate_file.py -t text -c "whoami" -o text_encrypted.txt -e
+python3 generate_file.py -t text  -c "whoami" -o text.txt
+python3 generate_file.py -t text  -c "whoami" -o text_encrypted.txt -e
 python3 generate_file.py -t audio -c "whoami" -o audio.wav
 python3 generate_file.py -t audio -c "whoami" -o audio_encrypted.wav -e
 python3 generate_file.py -t image -c "whoami" -o image.png
@@ -59,7 +59,7 @@ python3 generate_file.py -t video -c "whoami" -o video_encrypted.avi -e
 
 - **delay_seconds** (Optional. Default: 300): Seconds between checks of new files uploaded to the Google Drive or OneDrive folder or new videos in the Youtube channel.
 
-- **aes_key** (Optional. Default: "covert-tube_2021"): Key for AES encryption.
+- **aes_key** (Optional. Default: "covert-control21"): Key for AES encryption.
 
 - **debug** (Optional. Default: True): Print messages and timestamps in the listener or not.
 
