@@ -24,9 +24,9 @@ It is possible to execute commands from text files (".txt"), images (".png"), au
 ```
 python3 generate_file.py -t TYPE [-o OUTPUTFILE] [-c COMMAND] [-e]
 ```
-- -t (--type) [Required]. Types of file: "text", "image", "audio" or "video": 
+- -t (--type) [Required]. Types of file: "text", "image", "audio" or "video".
 
-- -o (--outputfile) [Optional]. Output file, with extension ".txt" for "text", ".png" for "image", ".wav" for "audio" and ".avi" for "video"
+- -o (--outputfile) [Optional]. Output file, with extension ".txt" for "text", ".png" for "image", ".wav" for "audio" and ".avi" for "video".
 
 - -c (--command) [Optional]. Command to execute.
 
@@ -49,19 +49,21 @@ python3 generate_file.py -t video -c "whoami" -o video_encrypted.avi -e
 
 ### Common configuration values in config.py
 
-- **delay_seconds** (Optional. Default: 300): Seconds delay until checking if a new video has been uploaded.
+- **delay_seconds** (Optional. Default: 300): Seconds between checks of new files uploaded to the Google Drive or OneDrive folder or new videos in the Youtube channel.
 
 - **data_type** (Optional. Default: "text"):
-	- "text" - Generate text file with the command in cleartext
-	- "text_encrypted" - Generate text file with the command encrypted with AES
-	- "image" - Generate QR image with the command in cleartext
-	- "image_encrypted" - Generate QR image with the command encrypted with AES
-	- "video" - Generate video file with the command in cleartext
-	- "video_encrypted" - Generate video file with the command encrypted with AES
+	- "text" - Generate text file (".txt") with the command in cleartext.
+	- "text_encrypted" - Generate text (".txt") file with the command encrypted with AES.
+	- "image" - Generate image file (".png") with the command in cleartext.
+	- "image_encrypted" - Generate image file (".png") with the command encrypted with AES.
+	- "audio" - Generate audio file (".wav") with the command in cleartext.
+	- "audio_encrypted" - Generate audio file (".wav") with the command encrypted with AES.
+	- "video" - Generate video file (".avi") with the command in cleartext.
+	- "video_encrypted" - Generate video file (".avi") with the command encrypted with AES.
 
-- **aes_key** (Optional. Default: "covert-tube_2021"): Key for AES encryption, used in the "qr_aes" option.
+- **aes_key** (Optional. Default: "covert-tube_2021"): Key for AES encryption.
 
-- **debug** (Optional. Default: True): Print messages or not.
+- **debug** (Optional. Default: True): Print messages and timestamps in the listener or not.
 
 
 --------------------------------------------------------------------------------------
@@ -75,7 +77,7 @@ It allows to execute commands uploading text files, images, audio and videos, un
 python3 covert-googledrive.py
 ```
 
-The listener will check the Google Drive folder every 300 seconds by default (can be updated in *config.py*). First a text file is uploaded, then an image and a video:
+The listener will check the Google Drive folder every 300 seconds by default (can be updated in *config.py*).
 
 ![img3](https://raw.githubusercontent.com/ricardojoserf/ricardojoserf.github.io/master/images/covert-gdrive/image3.jpg)
 
@@ -86,7 +88,7 @@ After finding there is a new file in the folder, it is downloaded, processed and
 
 ### Configuration in config.py
 
-- ***googledrive_folder*** (***Mandatory!!!***) - Url of public Google Drive folder.
+- ***googledrive_folder***: Url of public Google Drive folder.
 
 
 
@@ -112,7 +114,7 @@ After finding there is a new file in the folder, it is downloaded, processed and
 
 ### Configuration in config.py
 
-- **onedrive_folder** (***Mandatory!!!***) - Url of public OneDrive folder.
+- **onedrive_folder**: Url of public OneDrive folder.
 
 
 --------------------------------------------------------------------------------------
@@ -136,22 +138,22 @@ After finding there is [a new video in the channel](https://www.youtube.com/watc
 
 ### Configuration in config.py
 
-- **youtube_channel_id** (Mandatory!!!): Get your Youtube channel ID from [here](https://www.youtube.com/account_advanced).
+- **youtube_channel_id**: Get your Youtube channel ID from [here](https://www.youtube.com/account_advanced).
 
-- **youtube_api_key** (Mandatory!!!): To get the API key create an application and generate the key from [here](https://console.cloud.google.com/apis/credentials).
+- **youtube_api_key**: Get the API key creating an application and generating the key from [here](https://console.cloud.google.com/apis/credentials).
 
 
 --------------------------------------------------------------------------------------
 
 # Telegram
 
-Control systems remotely with a Telegram bot.
+Control systems remotely with a Telegram bot. This option does not allow to upload files, but it is possible to send the commands in cleartext ("/cmd") or encrypted with AES ("/encrypted").
 
 ```
 python3 covert-telegram.py
 ```
 
-In the bot chat:
+The listener will check the commands in the chat and show the output:
 
 ```
 /cmd CLEARTEXT_COMMAND
@@ -163,9 +165,8 @@ In the bot chat:
 
 ### Configuration
 
-Update the *config.py* file:
 
-- ***telegram_token*** (***Mandatory!!!***) - Bot token, create it using [t.me/BotFather](t.me/BotFather). Write "/newbot", then send a name for the bot (for example, "botname") and finally send a username for the bot ending in -bot (for example, "somethingrandombot")
+- ***telegram_token***: Bot token, create it using [BotFather](t.me/BotFather). Write "/newbot", then send a name for the bot (for example, "botname") and a username for the bot ending in -bot (for example, "somethingrandombot")
 
 ![img2](https://raw.githubusercontent.com/ricardojoserf/ricardojoserf.github.io/master/images/covert-telegram/image2.png)
 
