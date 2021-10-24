@@ -1,11 +1,8 @@
 ## Common
-### Seconds between checking
-delay_seconds = 300
-### Data type: "text", "text_encrypted", "image", "image_encrypted", "audio", "audio_encrypted", "video" or "video_encrypted"
+### Data type options: "text", "text_encrypted", "image", "image_encrypted", "audio", "audio_encrypted", "video" or "video_encrypted"
 data_type = "text"
-### Key for AES encryption
+delay_seconds = 300
 aes_key = "covert-tube_2021"
-### Debug messages
 debug = True
 
 ## Google Drive

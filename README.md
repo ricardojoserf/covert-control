@@ -1,36 +1,31 @@
 # covert-control
 
-- Google Drive - Control systems uploading files to a public folder in Google Drive.
-
-- OneDrive - Control systems uploading files to a public folder in OneDrive.
-
-- Telegram - Control systems with a Telegram bot.
-
-- Youtube - Control systems uploading videos to Youtube (updated from [covert-tube](https://github.com/ricardojoserf/covert-tube)).
+Control systems remotely by uploading files to Google Drive, OneDrive, Youtube and Telegram using Python to create the files and the listeners. It allows to create text files, images, audio or videos, with the commands in cleartext or encrypted using AES.
 
 
-### Installation
+- covert-googledrive.py - Control systems uploading files to a public folder in Google Drive.
 
-```
-sudo apt install libzbar0
-pip install bs4 Pillow opencv-python pyqrcode pypng pyzbar pycrypto youtube_dl pytesseract python-telegram-bot requests argparse
-git clone https://github.com/ricardojoserf/covert-control && cd covert-control/
-```
+- covert-onedrive.py - Control systems uploading files to a public folder in OneDrive.
+
+- covert-telegram.py - Control systems with a Telegram bot.
+
+- covert-youtube - Control systems uploading videos to Youtube (updated from [covert-tube](https://github.com/ricardojoserf/covert-tube)).
+
 
 ### Create files to upload
 
-It is possible to execute commands from text files (".txt"), images (".png"), audio (".wav") or videos (".avi") in the case of Google Drive and OneDrive, and only videos in the case of Youtube. You can also find example files in the folder test_files.
+You can find example files in the folder [test_files](https://github.com/ricardojoserf/covert-control/tree/reduced/test_files) or create new ones with generate_file.py:
 
 ```
 python3 generate_file.py -t TYPE [-o OUTPUTFILE] [-c COMMAND] [-e]
 ```
-- -t (--type) [Required]. Types of file: "text", "image", "audio" or "video".
+- -t (--type) [Required]: Types of file: "text", "image", "audio" or "video".
 
-- -o (--outputfile) [Optional]. Output file, with extension ".txt" for "text", ".png" for "image", ".wav" for "audio" and ".avi" for "video".
+- -o (--outputfile) [Optional]: Output file, with extension ".txt" for "text", ".png" for "image", ".wav" for "audio" and ".avi" for "video".
 
-- -c (--command) [Optional]. Command to execute.
+- -c (--command) [Optional]: Command to execute.
 
-- -e (--encrypted) [Optional]. Add this flag to encrypt the command with AES.
+- -e (--encrypted) [Optional]: Add this flag to encrypt the command with AES.
 
 
 Examples:
@@ -49,17 +44,17 @@ python3 generate_file.py -t video -c "whoami" -o video_encrypted.avi -e
 
 ### Common configuration values in config.py
 
-- **delay_seconds** (Optional. Default: 300): Seconds between checks of new files uploaded to the Google Drive or OneDrive folder or new videos in the Youtube channel.
-
 - **data_type** (Optional. Default: "text"):
 	- "text" - Generate text file (".txt") with the command in cleartext.
 	- "text_encrypted" - Generate text (".txt") file with the command encrypted with AES.
-	- "image" - Generate image file (".png") with the command in cleartext.
-	- "image_encrypted" - Generate image file (".png") with the command encrypted with AES.
-	- "audio" - Generate audio file (".wav") with the command in cleartext.
-	- "audio_encrypted" - Generate audio file (".wav") with the command encrypted with AES.
-	- "video" - Generate video file (".avi") with the command in cleartext.
-	- "video_encrypted" - Generate video file (".avi") with the command encrypted with AES.
+	- "image" - Generate image file (".png") with the command in cleartext. The command is in the QR code of the image.
+	- "image_encrypted" - Generate image file (".png") with the command encrypted with AES. 
+	- "audio" - Generate audio file (".wav") with the command in cleartext. The command ascii values are translated to binary values which form the audio.
+	- "audio_encrypted" - Generate audio file (".wav") with the command encrypted with AES. 
+	- "video" - Generate video file (".avi") with the command in cleartext. The command is in the QR code of the frame of the video.
+	- "video_encrypted" - Generate video file (".avi") with the command encrypted with AES. 
+
+- **delay_seconds** (Optional. Default: 300): Seconds between checks of new files uploaded to the Google Drive or OneDrive folder or new videos in the Youtube channel.
 
 - **aes_key** (Optional. Default: "covert-tube_2021"): Key for AES encryption.
 
@@ -77,18 +72,19 @@ It allows to execute commands uploading text files, images, audio and videos, un
 python3 covert-googledrive.py
 ```
 
-The listener will check the Google Drive folder every 300 seconds by default (can be updated in *config.py*).
+The listener will check the Google Drive folder every 300 seconds by default (can be updated in *config.py*). In this case a video, "video.avi", is uploaded with the command in the QR of the video.
 
-![img3](https://raw.githubusercontent.com/ricardojoserf/ricardojoserf.github.io/master/images/covert-gdrive/image3.jpg)
+![img1](https://raw.githubusercontent.com/ricardojoserf/ricardojoserf.github.io/master/images/covert-control/image1.png)
 
-After finding there is a new file in the folder, it is downloaded, processed and the commands are executed:
+After finding there is a new file uploaded to the folder, it is downloaded, processed and the commands are executed:
 
-![img4](https://raw.githubusercontent.com/ricardojoserf/ricardojoserf.github.io/master/images/covert-gdrive/image4.jpg)
+![img2](https://raw.githubusercontent.com/ricardojoserf/ricardojoserf.github.io/master/images/covert-control/image2.png)
+
 
 
 ### Configuration in config.py
 
-- ***googledrive_folder***: Url of public Google Drive folder.
+- **googledrive_folder**: Url of public Google Drive folder.
 
 
 
@@ -103,13 +99,13 @@ It allows to execute commands uploading text files, images, audio and videos, un
 python3 covert-onedrive.py
 ```
 
-The listener will check the OneDrive folder every 300 seconds by default (can be updated in *config.py*).
+The listener will check the OneDrive folder every 300 seconds by default (can be updated in *config.py*). In this case an audio, "audio_encrypted.wav", is uploaded with the command encrypted with AES.
 
-![img3](https://raw.githubusercontent.com/ricardojoserf/ricardojoserf.github.io/master/images/covert-gdrive/image3.jpg)
+![img3](https://raw.githubusercontent.com/ricardojoserf/ricardojoserf.github.io/master/images/covert-control/image3.png)
 
-After finding there is a new file in the folder, it is downloaded, processed and the commands are executed:
+After finding there is a new file uploaded to the folder, it is downloaded, processed and the commands are executed:
 
-![img4](https://raw.githubusercontent.com/ricardojoserf/ricardojoserf.github.io/master/images/covert-gdrive/image4.jpg)
+![img4](https://raw.githubusercontent.com/ricardojoserf/ricardojoserf.github.io/master/images/covert-control/image4.png)
 
 
 ### Configuration in config.py
@@ -129,11 +125,11 @@ python3 covert-youtube.py
 
 The listener will check the Youtube channel every 300 seconds by default (can be updated in *config.py*). First the video is uploaded:
 
-![youtube-video-uploaded](https://raw.githubusercontent.com/ricardojoserf/ricardojoserf.github.io/master/images/covert-tube/image2.png)
+![img5](https://raw.githubusercontent.com/ricardojoserf/ricardojoserf.github.io/master/images/covert-control/image5.png)
 
 After finding there is [a new video in the channel](https://www.youtube.com/watch?v=ZPQ4drX35bU), it is downloaded, processed and the commands are executed:
 
-![youtube-commands](https://raw.githubusercontent.com/ricardojoserf/ricardojoserf.github.io/master/images/covert-tube/image3.png)
+![img6](https://raw.githubusercontent.com/ricardojoserf/ricardojoserf.github.io/master/images/covert-control/image6.png)
 
 
 ### Configuration in config.py
@@ -160,32 +156,33 @@ The listener will check the commands in the chat and show the output:
 /encrypted AES_ENCRYPTED_COMMAND
 ```
 
-![telegram-bot](https://raw.githubusercontent.com/ricardojoserf/ricardojoserf.github.io/master/images/covert-telegram/image1.png)
+![img7](https://raw.githubusercontent.com/ricardojoserf/ricardojoserf.github.io/master/images/covert-control/image7.png)
 
 
-### Configuration
+### Configuration in config.py
 
 
-- ***telegram_token***: Bot token, create it using [BotFather](t.me/BotFather). Write "/newbot", then send a name for the bot (for example, "botname") and a username for the bot ending in -bot (for example, "somethingrandombot")
-
-![img2](https://raw.githubusercontent.com/ricardojoserf/ricardojoserf.github.io/master/images/covert-telegram/image2.png)
-
+- **telegram_token**: Bot token, create it using [BotFather](t.me/BotFather). Write "/newbot", then send a name for the bot (for example, "botname") and a username for the bot ending in -bot (for example, "somethingrandombot")
 
 
 --------------------------------------------------------------------------------------
+
+### Installation
+
+```
+sudo apt install libzbar0
+pip install bs4 Pillow opencv-python pyqrcode pypng pyzbar pycrypto youtube_dl pytesseract python-telegram-bot requests argparse
+git clone https://github.com/ricardojoserf/covert-control && cd covert-control/
+```
 
 ### Creating standalone binaries
 
 ```
 pyinstaller --onefile covert-googledrive.py
-cp dist/main covert-googledrive
 pyinstaller --onefile covert-onedrive.py
-cp dist/main covert-onedrive
 pyinstaller --onefile covert-telegram.py
-cp dist/main covert-telegram
 pyinstaller --onefile covert-youtube.py
-cp dist/main covert-youtube
-rm -rf dist build
-rm main.spec
+rm -rf build
+rm *spec
+ls dist/
 ```
-

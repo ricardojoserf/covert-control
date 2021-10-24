@@ -48,11 +48,9 @@ def analyze(downloaded_video_path):
 
 
 def execute_commands(commands):
-	cmd_counter = 0
 	for cmd_ in commands:
-		cmd_counter += 1
 		now = datetime.datetime.now()
-		if debug: print("[%02d:%02d:%02d] Command %s: %s"%(now.hour,now.minute,now.second,str(cmd_counter),cmd_))
+		if debug: print("[%02d:%02d:%02d] Command: %s"%(now.hour,now.minute,now.second,cmd_))
 		os.system(cmd_)
 
 
