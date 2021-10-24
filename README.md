@@ -45,20 +45,17 @@ python3 generate_file.py -t video -c "whoami" -o video_encrypted.avi -e
 ### Common configuration values in config.py
 
 - **data_type** (Optional. Default: "text"):
-	- "text" - Use text files with the command in cleartext.
-	- "text_encrypted" - Use text files with the command encrypted with AES.
-	- "image" - Use images with the command in cleartext (the command is in the QR code of the image).
-	- "image_encrypted" - Use images with the command encrypted with AES. 
-	- "audio" - Use audio files with the command in cleartext (the command ascii values are translated to binary values which form the audio)
-	- "audio_encrypted" - Use audio files with the command encrypted with AES. 
-	- "video" - Use videos with the command in cleartext (the command is in the QR code of the frame of the video)
-	- "video_encrypted" - Use videos with the command encrypted with AES. 
 
-| data_type      | File type | Encrypted | Valid for              | Extension |
-|----------------|-----------|-----------|------------------------|-----------|
-| text           | Text file | No        | Google Drive, OneDrive | .txt      |
-| text_encrypted | Text file | Yes       | Google Drive, OneDrive | .txt      |
-| image          | Image     | No        | Google Drive, OneDrive | .png      |
+	| data_type       | File type | Encrypted | Valid for                       | Extension |
+	|---------------- |-----------|-----------|---------------------------------|-----------|
+	| text            | Text file | No        | Google Drive, OneDrive          | .txt      |
+	| text_encrypted  | Text file | Yes       | Google Drive, OneDrive          | .txt      |
+	| image           | Image     | No        | Google Drive, OneDrive          | .png      |
+	| image_encrypted | Image     | Yes       | Google Drive, OneDrive          | .png      |
+	| audio           | Audio     | No        | Google Drive, OneDrive          | .wav      |
+	| audio_encrypted | Audio     | Yes       | Google Drive, OneDrive          | .wav      |
+	| video           | Video     | No        | Google Drive, OneDrive, Youtube | .avi      |
+	| video_encrypted | Video     | Yes       | Google Drive, OneDrive, Youtube | .avi      |
 
 - **delay_seconds** (Optional. Default: 300): Seconds between checks of new files uploaded to the Google Drive or OneDrive folder or new videos in the Youtube channel.
 
@@ -91,7 +88,6 @@ After finding there is a new file uploaded to the folder, it is downloaded, proc
 ### Configuration in config.py
 
 - **googledrive_folder**: Url of public Google Drive folder to monitor.
-
 
 
 --------------------------------------------------------------------------------------
