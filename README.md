@@ -7,9 +7,9 @@ Control systems remotely by uploading files to Google Drive, OneDrive, Youtube a
 
 - covert-onedrive.py - Control systems uploading files to a public folder in OneDrive.
 
-- covert-telegram.py - Control systems with a Telegram bot.
-
 - covert-youtube - Control systems uploading videos to Youtube (updated from [covert-tube](https://github.com/ricardojoserf/covert-tube)).
+
+- covert-telegram.py - Control systems with a Telegram bot.
 
 
 ### Create files to upload
@@ -169,7 +169,7 @@ The listener will check the commands in the chat and show the output:
 
 --------------------------------------------------------------------------------------
 
-### Installation
+# Installation
 
 ```
 sudo apt install libzbar0
@@ -188,3 +188,4 @@ rm -rf build
 rm *spec
 ls dist/
 ```
+
