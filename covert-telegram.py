@@ -5,6 +5,7 @@ import subprocess
 import datetime
 import config
 import base64
+import sys
 
 
 def decrypt_text(encrypted_text):
@@ -44,7 +45,13 @@ def cmd(update, context):
 
 
 def main():
-	token = config.telegram_token
+	if len(sys.argv) == 2:
+		token = sys.argv[1]
+	else:
+		token = config.telegram_token
+	if token == "":
+		print("[-] ERROR: It is necessary to use the Telegram bot token as input parameter or add the value to the parameter 'telegram_token' in config.py")
+		sys.exit(1)
 	updater = Updater(token, use_context=True)
 	dp = updater.dispatcher
 	dp.add_handler(CommandHandler('cmd',cmd))

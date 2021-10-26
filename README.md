@@ -1,13 +1,13 @@
 # covert-control
 
-Control systems remotely by uploading files to Google Drive, OneDrive, Youtube and Telegram using Python to create the files and the listeners. It allows to create text files, images, audio or videos, with the commands in cleartext or encrypted using AES.
+Control systems remotely by uploading files to Google Drive, OneDrive, Youtube or Telegram using Python to create the files and the listeners. It allows to create text files, images, audio or videos, with the commands in cleartext or encrypted using AES.
 
 
 - covert-googledrive.py - Control systems uploading files to a public folder in Google Drive.
 
 - covert-onedrive.py - Control systems uploading files to a public folder in OneDrive.
 
-- covert-youtube - Control systems uploading videos to Youtube (updated from [covert-tube](https://github.com/ricardojoserf/covert-tube)).
+- covert-youtube.py - Control systems uploading videos to Youtube (updated from [covert-tube](https://github.com/ricardojoserf/covert-tube)).
 
 - covert-telegram.py - Control systems with a Telegram bot.
 
@@ -42,7 +42,9 @@ python3 generate_file.py -t video -c "whoami" -o video_encrypted.avi -e
 ```
 
 
-### Common configuration values in config.py
+### Configuration
+
+Common configuration values:
 
 - **data_type** (Optional. Default: "text"):
 
@@ -64,18 +66,31 @@ python3 generate_file.py -t video -c "whoami" -o video_encrypted.avi -e
 - **debug** (Optional. Default: True): Print messages and timestamps in the listener or not.
 
 
+Specific configuration values:
+
+- **googledrive_folder**: Url of public Google Drive folder to monitor (for covert-googledrive.py).
+
+- **onedrive_folder**: Url of public OneDrive folder to monitor (for covert-onedrive.py).
+
+- **youtube_channel_id**: Youtube channel ID of the channel to monitor. You can get it from [here](https://www.youtube.com/account_advanced) (for covert-youtube.py).
+
+- **youtube_api_key**: Get an API key creating an application and generating the key in [here](https://console.cloud.google.com/apis/credentials) (for covert-youtube.py).
+
+- **telegram_token**: Bot token, create it using [BotFather](t.me/BotFather). Write "/newbot", then send a name for the bot (for example, "botname") and a username for the bot ending in "-bot" (for example, "somethingrandombot") (for covert-telegram.py).
+
+
 --------------------------------------------------------------------------------------
 
 # Google Drive
 
-It allows to execute commands uploading text files, images, audio and videos, unencrypted or encrypted with AES.
+It allows to execute commands uploading text files, images, audio and videos, unencrypted or encrypted with AES. The optional input argument is the public folder url, which can be also configured in config.py:
 
 
 ```
-python3 covert-googledrive.py
+python3 covert-googledrive.py [FOLDER_URL]
 ```
 
-The listener will check the Google Drive folder every 300 seconds by default (can be updated in *config.py*). In this case a video, "video.avi", is uploaded with the command in the QR of the video.
+The listener will check the Google Drive folder every 300 seconds by default (can be updated in *config.py*). In this case a video, "video.avi", is uploaded with the command in the QR of the video:
 
 ![img1](https://raw.githubusercontent.com/ricardojoserf/ricardojoserf.github.io/master/images/covert-control/image1.png)
 
@@ -84,24 +99,18 @@ After finding there is a new file uploaded to the folder, it is downloaded, proc
 ![img2](https://raw.githubusercontent.com/ricardojoserf/ricardojoserf.github.io/master/images/covert-control/image2.png)
 
 
-
-### Configuration in config.py
-
-- **googledrive_folder**: Url of public Google Drive folder to monitor.
-
-
 --------------------------------------------------------------------------------------
 
 # Onedrive
 
-It allows to execute commands uploading text files, images, audio and videos, unencrypted or encrypted with AES.
+It allows to execute commands uploading text files, images, audio and videos, unencrypted or encrypted with AES. The optional input argument is the public folder url, which can be also configured in config.py:
 
 
 ```
-python3 covert-onedrive.py
+python3 covert-onedrive.py [FOLDER_URL]
 ```
 
-The listener will check the OneDrive folder every 300 seconds by default (this can be updated in *config.py*). In this case an audio, "audio_encrypted.wav", is uploaded with the command encrypted with AES.
+The listener will check the OneDrive folder every 300 seconds by default (this can be updated in *config.py*). In this case an audio, "audio_encrypted.wav", is uploaded with the command encrypted with AES:
 
 ![img3](https://raw.githubusercontent.com/ricardojoserf/ricardojoserf.github.io/master/images/covert-control/image3.png)
 
@@ -110,19 +119,14 @@ After finding there is a new file uploaded to the folder, it is downloaded, proc
 ![img4](https://raw.githubusercontent.com/ricardojoserf/ricardojoserf.github.io/master/images/covert-control/image4.png)
 
 
-### Configuration in config.py
-
-- **onedrive_folder**: Url of public OneDrive folder to monitor.
-
-
 --------------------------------------------------------------------------------------
 
 # Youtube
 
-It allows to execute commands uploading videos, unencrypted or encrypted with AES.
+It allows to execute commands uploading videos, unencrypted or encrypted with AES. The optional input arguments are the Youtube channel ID to monitor and the API key, which can be also configured in config.py:
 
 ```
-python3 covert-youtube.py
+python3 covert-youtube.py [CHANNEL_ID] [API_KEY]
 ```
 
 The listener will check the Youtube channel every 300 seconds by default (this can be updated in *config.py*). First the video is uploaded:
@@ -134,21 +138,14 @@ After finding there is [a new video in the channel](https://www.youtube.com/watc
 ![img6](https://raw.githubusercontent.com/ricardojoserf/ricardojoserf.github.io/master/images/covert-control/image6.png)
 
 
-### Configuration in config.py
-
-- **youtube_channel_id**: Youtube channel ID of the channel to monitor. You can get it from [here](https://www.youtube.com/account_advanced).
-
-- **youtube_api_key**: Get an API key creating an application and generating the key in [here](https://console.cloud.google.com/apis/credentials).
-
-
 --------------------------------------------------------------------------------------
 
 # Telegram
 
-Control systems remotely with a Telegram bot. This option does not allow to upload files, but it is possible to send the commands in cleartext ("/cmd") or encrypted with AES ("/encrypted").
+Control systems remotely with a Telegram bot. This option does not allow to upload files, but it is possible to send the commands in cleartext ("/cmd") or encrypted with AES ("/encrypted"). The optional input argument is the bot token, which can be also configured in config.py:
 
 ```
-python3 covert-telegram.py
+python3 covert-telegram.py [BOT_TOKEN]
 ```
 
 The listener will check the commands in the chat and show the output:
@@ -159,12 +156,6 @@ The listener will check the commands in the chat and show the output:
 ```
 
 ![img7](https://raw.githubusercontent.com/ricardojoserf/ricardojoserf.github.io/master/images/covert-control/image7.png)
-
-
-### Configuration in config.py
-
-
-- **telegram_token**: Bot token, create it using [BotFather](t.me/BotFather). Write "/newbot", then send a name for the bot (for example, "botname") and a username for the bot ending in "-bot" (for example, "somethingrandombot")
 
 
 --------------------------------------------------------------------------------------

@@ -107,7 +107,13 @@ def wait_for_upload(delay_seconds, download_dir, url):
 
 def main():
 	download_dir = "."
-	url = config.googledrive_folder
+	if len(sys.argv) == 2:
+		url = sys.argv[1]
+	else:
+		url = config.googledrive_folder
+	if url == "":
+		print("[-] ERROR: It is necessary to use the Google Drive public folder as input parameter or add the value to the parameter 'googledrive_folder' in config.py")
+		sys.exit(1)
 	delay_seconds = config.delay_seconds
 	wait_for_upload(delay_seconds, download_dir, url)
 

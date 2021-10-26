@@ -1,6 +1,4 @@
 from __future__ import unicode_literals
-import os
-import sys
 import read_file
 import youtube_dl
 import datetime
@@ -8,8 +6,11 @@ import urllib
 import config
 import json
 import time
+import sys
+import os
 
 debug = config.debug
+
 
 def get_first_video_in_channel(api_key, channel_id):
 	base_video_url = 'https://www.youtube.com/watch?v='
@@ -79,8 +80,19 @@ def wait_for_upload(original_video_url, api_key, channel_id, delay_seconds, down
 def main():
 	delay_seconds = config.delay_seconds
 	downloaded_video_path = "./test.mp4"
-	channel_id = config.youtube_channel_id
-	api_key = config.youtube_api_key
+	if len(sys.argv) == 3:
+		channel_id = sys.argv[1]
+		api_key = sys.argv[2]
+	else:
+		channel_id = config.youtube_channel_id
+		api_key = config.youtube_api_key
+	if channel_id == "" or api_key == "":
+		print("[-] ERROR: It is necessary to use the Youtube channel ID and the API key as input parameters or add the values to the parameters 'youtube_channel_id' and 'youtube_api_key' in config.py")
+		sys.exit(1)
+	data_type = config.data_type
+	if data_type != "video" and data_type != "video_encrypted":
+		print("[-] ERROR: Unsupported value for data_type. For the Youtube option it should be 'video' or 'video_encrypted'")
+		sys.exit(1)
 	original_video_url = get_first_video_in_channel(api_key, channel_id)
 	wait_for_upload(original_video_url, api_key, channel_id, delay_seconds, downloaded_video_path)
 

@@ -5,9 +5,11 @@ import datetime
 import config
 import json
 import time
+import sys
 import os
 
 debug = config.debug
+
 
 def parse_vals(url):
 	redir_url = requests.get(url, allow_redirects=True).url
@@ -126,7 +128,13 @@ def wait_for_upload(folder_id, next_id, authkey, temp_folder):
 
 def main():
 	temp_folder = "."
-	url = config.onedrive_folder
+	if len(sys.argv) == 2:
+		url = sys.argv[1]
+	else:
+		url = config.onedrive_folder
+	if url == "":
+		print("[-] ERROR: It is necessary to use the OneDrive public folder as input parameter or add the value to the parameter 'onedrive_folder' in config.py")
+		sys.exit(1)
 	folder_id, first_item_id, authkey = parse_vals(url)
 	next_id = get_next_id(folder_id, first_item_id, authkey)
 	wait_for_upload(folder_id, next_id, authkey, temp_folder)
