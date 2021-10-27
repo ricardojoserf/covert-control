@@ -2,6 +2,7 @@ from __future__ import unicode_literals
 import read_file
 import youtube_dl
 import datetime
+import requests
 import urllib
 import config
 import json
@@ -16,8 +17,10 @@ def get_first_video_in_channel(api_key, channel_id):
 	base_video_url = 'https://www.youtube.com/watch?v='
 	base_search_url = 'https://www.googleapis.com/youtube/v3/search?'
 	url = base_search_url + "part=snippet&channelId={}&maxResults=1&order=date&type=video&key={}".format(channel_id,api_key)
-	inp = urllib.request.urlopen(url)
-	resp = json.load(inp)
+	resp = requests.get(url).json()
+	if 'error' in resp:
+		print("ERROR: " + str(resp['error']['message']))
+		sys.exit(1)
 	if (resp['items'] != []):
 		title = resp['items'][0]['snippet']['title']
 		video_id = resp['items'][0]['id']['videoId']
@@ -27,7 +30,8 @@ def get_first_video_in_channel(api_key, channel_id):
 		if debug: print("[%02d:%02d:%02d] Last video url:   %s" % (now.hour,now.minute,now.second,video_url))
 		return video_url
 	else:
-		if debug: print("[%02d:%02d:%02d] No videos uploaded yet" % (now.hour,now.minute))
+		now = datetime.datetime.now()
+		if debug: print("[%02d:%02d:%02d] No videos uploaded yet" % (now.hour,now.minute,now.second))
 		return ""
 
 
@@ -37,7 +41,7 @@ def download_video(video_url, downloaded_video_path):
 	ydl_opts = {'outtmpl': downloaded_video_path, 'quiet': 'any_printing'}
 	with youtube_dl.YoutubeDL(ydl_opts) as ydl:
 		ydl.download([video_url])
-	
+
 
 def analyze(downloaded_video_path):
 	data_type = config.data_type

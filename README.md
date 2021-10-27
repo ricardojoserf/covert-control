@@ -119,6 +119,8 @@ After finding there is a new file uploaded to the folder, it is downloaded, proc
 ![img4](https://raw.githubusercontent.com/ricardojoserf/ricardojoserf.github.io/master/images/covert-control/image4.png)
 
 
+**NOTE**: This will only work if you do not delete any file in the folder, if you do it you must create a new one. It could be possible to implement it to work even after deleting files, but it would be necessary to create many requests and would be less stealthy.
+
 --------------------------------------------------------------------------------------
 
 # Youtube
