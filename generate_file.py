@@ -6,8 +6,10 @@ import base64
 import config
 import random
 import struct
+import string
 import wave
 import cv2
+import sys
 import os
 import re
 
@@ -166,6 +168,22 @@ def get_args():
 	return parser
 
 
+def change_aes_key():
+	print("[+] Creating new AES key")
+	config_lines = open("config.py").read().splitlines()
+	new_config_lines = []
+	for l in config_lines:
+		if not "aes_key" in l:
+			new_config_lines.append(l)
+		else:
+			new_aes_key = ''.join(random.choices(string.ascii_letters + string.digits, k=16))
+			new_config_lines.append("aes_key = \""+new_aes_key+"\"")
+	with open("config.py", "w") as outfile:
+		outfile.write("\n".join(new_config_lines))
+	print("[+] New AES key: %s. Please run the program again :)"%(new_aes_key))
+	sys.exit(0)
+
+
 def main():
 	args = get_args().parse_args()
 	file_type = args.type
@@ -174,6 +192,10 @@ def main():
 	command = args.command
 	if encrypted:
 		file_type += "_encrypted"
+		if config.aes_key == "covert-control21":
+			change_key = input("[-] Using default AES key 'covert-control21', would you like to generate a random key? [Y/n]")
+			if change_key.lower() == "y" or change_key.lower() == "yes":
+				change_aes_key()
 	if file_type == "text" or file_type == "text_encrypted":
 		if outputfile is None:
 			outputfile = "test.txt"
