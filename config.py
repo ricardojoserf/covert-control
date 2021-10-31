@@ -11,9 +11,10 @@ googledrive_folder = ""
 ## OneDrive
 onedrive_folder = ""
 
-## Telegram
-telegram_token = ""
-
 ## Youtube
 youtube_channel_id = ""
 youtube_api_key = ""
+
+## Telegram
+telegram_token = ""
+telegram_username = ""

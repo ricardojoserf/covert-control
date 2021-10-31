@@ -78,6 +78,8 @@ Specific configuration values:
 
 - **telegram_token**: Bot token, create it using [BotFather](t.me/BotFather). Write "/newbot", then send a name for the bot (for example, "botname") and a username for the bot ending in "-bot" (for example, "somethingrandombot") (for covert-telegram.py).
 
+- **telegram_username**: Specify a Telegram username so it only executes commands received from this user (without "@").
+
 
 --------------------------------------------------------------------------------------
 
@@ -144,10 +146,10 @@ After finding there is [a new video in the channel](https://www.youtube.com/watc
 
 # Telegram
 
-Control systems remotely with a Telegram bot. This option does not allow to upload files, but it is possible to send the commands in cleartext ("/cmd") or encrypted with AES ("/encrypted"). The optional input argument is the bot token, which can be also configured in config.py:
+Control systems remotely with a Telegram bot. This option does not allow to upload files, but it is possible to send the commands in cleartext ("/cmd") or encrypted with AES ("/encrypted"). The first optional input argument is the bot token, which can be also configured in config.py; the second one is used to configure a single Telegram user who can send commands to the bot (without "@"):
 
 ```
-python3 covert-telegram.py [BOT_TOKEN]
+python3 covert-telegram.py [BOT_TOKEN] [TELEGRAM_USER]
 ```
 
 The listener will check the commands in the chat and show the output:

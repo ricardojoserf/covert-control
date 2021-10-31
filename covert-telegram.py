@@ -8,6 +8,9 @@ import base64
 import sys
 
 
+configured_username = ""
+
+
 def decrypt_text(encrypted_text):
 	try:
 		enc = base64.b64decode(encrypted_text)
@@ -31,6 +34,10 @@ def exec_cmd(command):
 
 
 def encrypted(update, context):
+	msg_username = update.message.from_user.username
+	if configured_username != "" and msg_username != configured_username:
+		print("[-] ERROR: Message received from %s but the script only allows requests from user %s"%(msg_username, configured_username))
+		return
 	chat_id = update.message.chat_id
 	command = decrypt_text(" ".join(context.args))
 	subprocess_return = exec_cmd(command)
@@ -38,6 +45,10 @@ def encrypted(update, context):
 
 
 def cmd(update, context):
+	msg_username = update.message.from_user.username
+	if configured_username != "" and msg_username != configured_username:
+		print("[-] ERROR: Message received from %s but the script only allows requests from user %s"%(msg_username, configured_username))
+		return
 	chat_id = update.message.chat_id
 	command = " ".join(context.args)
 	subprocess_return = exec_cmd(command)
@@ -45,10 +56,15 @@ def cmd(update, context):
 
 
 def main():
-	if len(sys.argv) == 2:
+	global configured_username
+	if len(sys.argv) >= 2:
 		token = sys.argv[1]
 	else:
 		token = config.telegram_token
+	if len(sys.argv) >= 3:
+		configured_username = sys.argv[2]
+	else:
+		configured_username = config.telegram_username
 	if token == "":
 		print("[-] ERROR: It is necessary to use the Telegram bot token as input parameter or add the value to the parameter 'telegram_token' in config.py")
 		sys.exit(1)
