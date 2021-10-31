@@ -19,7 +19,7 @@ def encrypt_text(message, aes_key):
 	BS = 16
 	pad = lambda s: s + (BS - len(s) % BS) * chr(BS - len(s) % BS).encode()
 	raw = pad(message)
-	cipher = AES.new(aes_key, AES.MODE_CBC, chr(0) * 16)
+	cipher = AES.new(aes_key.encode("utf8"), AES.MODE_CBC, (chr(0) * 16).encode("utf8"))
 	enc = cipher.encrypt(raw)
 	return base64.b64encode(enc).decode('utf-8')
 

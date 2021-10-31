@@ -166,7 +166,7 @@ The listener will check the commands in the chat and show the output:
 
 ```
 sudo apt install libzbar0
-pip install bs4 Pillow opencv-python pyqrcode pypng pyzbar pycrypto youtube_dl pytesseract python-telegram-bot requests argparse
+pip install bs4 Pillow opencv-python pyqrcode pypng pyzbar youtube_dl pytesseract python-telegram-bot requests argparse pycryptodome
 git clone https://github.com/ricardojoserf/covert-control && cd covert-control/
 ```
 

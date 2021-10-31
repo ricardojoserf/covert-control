@@ -63,7 +63,7 @@ def read_video(image_type, video_path, imagesFolder):
 def decrypt_text(encrypted_text):
 	try:
 		enc = base64.b64decode(encrypted_text)
-		cipher = AES.new(config.aes_key, AES.MODE_CBC, chr(0) * 16) # yes, IV is all zeros xD
+		cipher = AES.new(config.aes_key.encode("utf-8"), AES.MODE_CBC, (chr(0) * 16).encode("utf-8")) # yes, IV is all zeros xD
 		dec = cipher.decrypt(enc)
 		unpad = lambda s: s[:-ord(s[len(s)-1:])]
 		return unpad(dec).decode('utf-8')
@@ -137,6 +137,7 @@ def main():
 	print(read_image("qr_aes", "test6.png"))
 	print(read_audio("audio","test7.wav"))
 	print(read_audio("audio_encrypted","test8.wav"))
+	
 
 if __name__== "__main__":
 	main()
